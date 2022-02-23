@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+<!--    <link rel="stylesheet" href="index.css">-->
+    <title>React Example</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+      * {margin:0;}
+
+      #wrap {
+        z-index: 0;
+      }
+
+      #player-wrapper {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        box-shadow: 0px 10px 24px 0px rgba(50, 50, 75, 0.49);
+        font-size: 0;
+        /*background-color: yellow;*/
+        margin: auto;
+        z-index: -1000;
+        padding-bottom: 56.25%;
+        background-color: transparent !important;
+        outline:none;
+      }
+
+      #player-wrapper video {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      #checkbox-wrapper{
+        border-radius: 10px;
+        z-index: 2;
+        position: absolute;
+        top: 50px;
+        left: 1550px;
+        background-color: #f1f1f1;
+        border: none;
+        text-align: center;
+        overflow:auto;
+        background-color: rgba(255, 255, 255, 0.2);
+        /*background-color: rgba(255, 255, 255, 0.05);*/
+      }
+
+      /*#checkbox-wrapper-dragger {*/
+      /*  border-radius: 15px;*/
+      /*  padding: 10px;*/
+      /*  cursor: move;*/
+      /*  z-index: 2;*/
+      /*  background-color: #2196F3;*/
+      /*  color: #fff;*/
+      /*}*/
+
+      #slider-wrapper{
+        border-radius: 10px;
+        z-index: 2;
+        position: absolute;
+        border: none;
+        top: 50px;
+        left: 1300px;
+        /*background-color: #f1f1f1;*/
+        /*border: 1px solid #d3d3d3;*/
+        text-align: left;
+        background-color: rgba(255, 255, 255, 0.2);
+        overflow:auto;
+      }
+
+      /*#slider-wrapper-dragger{*/
+      /*  border-radius: 15px;*/
+      /*  padding: 10px;*/
+      /*  cursor: move;*/
+      /*  z-index: 2;*/
+      /*  background-color: #2196F3;*/
+      /*  color: #fff;*/
+      /*}*/
+
+      #button-wrapper{
+        border-radius: 10px;
+        z-index: 2;
+        position: absolute;
+        top: 700px;
+        left: 380px;
+        /*background-color: #f1f1f1;*/
+        /*border: 1px solid #d3d3d3;*/
+        text-align: left;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      #button-wrapper-dragger{
+        border-radius: 15px;
+        padding: 10px;
+        cursor: move;
+        z-index: 2;
+        background-color: #2196F3;
+        color: #fff;
+
+      }
+
+      #button-content-wrapper{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        /*opacity: 0.1;*/
+
+      }
+
+      /*tr{*/
+      /*  background-color: rgba(255, 255, 255, 0.1);*/
+      /*}*/
+
+
+      input{
+        float: left;
+      }
+
+      p{
+        display: flex;
+        justify-content: center;
+      }
+
+      .button {
+        position: relative;
+        background-color: #4CAF50;
+        border: none;
+        font-size: 28px;
+        color: #FFFFFF;
+        padding: 20px;
+        width: 330px;
+        height: 150px;
+        text-align: center;
+        transition-duration: 0.4s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 12px;
+        margin: 5px;
+        vertical-align: top;
+      }
+
+      .disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .button:after {
+        content: "";
+        background: #f1f1f1;
+        display: block;
+        position: absolute;
+        padding-top: 300%;
+        padding-left: 350%;
+        margin-left: -20px !important;
+        margin-top: -120%;
+        opacity: 0;
+        transition: all 0.8s
+      }
+
+      .button:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s
+      }
+
+      .button:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+      }
+
+      .img {
+        position: relative;
+        background-color: transparent;
+        border: none;
+        font-size: 28px;
+        color: #FFFFFF;
+        /*padding: 20px;*/
+        width: 310px;
+        height: 250px;
+        text-align: center;
+        transition-duration: 0.4s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 12px;
+        margin: 5px;
+        vertical-align: top;
+      }
+
+      .img:after {
+        content: "";
+        /*background: #f1f1f1;*/
+        display: block;
+        position: absolute;
+        padding-top: 300%;
+        padding-left: 350%;
+        margin-left: -20px !important;
+        margin-top: -120%;
+        opacity: 0;
+        transition: all 0.8s
+      }
+
+      .img:active:after {
+        padding: 0;
+        margin: 0;
+        opacity: 1;
+        transition: 0s
+      }
+
+      .img:hover {
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+      }
+
+
+      .f-button{
+        position: relative;
+        background-color: grey;
+        border: none;
+        font-size: 28px;
+        color: #FFFFFF;
+        padding: 20px;
+        width: 55px;
+        height: 100px;
+        text-align: center;
+        transition-duration: 0.4s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 12px;
+        margin: 5px;
+
+      }
+
+      .page-button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        width: 55px;
+        height: 100px;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 12px;
+      }
+
+      .page-button-dynamic {
+        background-color: #555555;
+        color: white;
+        border: 2px solid #555555;
+      }
+
+      .page-button-dynamic:hover {
+        background-color: white;
+        color: black;
+      }
+
+
+
+    </style>
+  </head>
+  <body>
+
+    <!-- We will put our React component inside this div. -->
+    <div id="wrap">
+
+      <div id="player-wrapper">
+        <video id = "video" controls>
+          <source id = "video source" src="NVideos/combo_06_3_0.mp4" type="video/mp4">
+        </video>
+      </div>
+
+
+
+      <div id="checkbox-wrapper">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+<!--        <div id="checkbox-wrapper-dragger">Click here to move</div>-->
+        <table id="checkbox-list" class="w3-table w3-striped w3-white">
+          <caption id="checkbox-wrapper-dragger">Checkbox Menu</caption>
+          <tr>
+            <td><i class="fa  w3-text-blue w3-large"></i></td>
+            <td><input type="checkbox" id="type1" onclick="filterData(this)" value="1"></td>
+            <td><label>vertical:up-to-down</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-red w3-large"></i></td>
+            <td><input type="checkbox" id="type2" onclick="filterData(this)" value="2"></td>
+            <td><label>diagnose:upleft-to-lowright</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-yellow w3-large"></i></td>
+            <td><input type="checkbox" id="type3" onclick="filterData(this)" value="3"></td>
+            <td><label>diagnose:upright-to-lowleft</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-red w3-large"></i></td>
+            <td><input type="checkbox" id="type4" onclick="filterData(this)" value="4"></td>
+            <td><label>diagnose:lowleft-to-upright</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-blue w3-large"></i></td>
+            <td><input type="checkbox" id="type5" onclick="filterData(this)" value="5"></td>
+            <td><label>diagnose:lowright-to-upleft</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-red w3-large"></i></td>
+            <td><input type="checkbox" id="type6" onclick="filterData(this)" value="6"></td>
+            <td><label>horizontal:left-to-right</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-green w3-large"></i></td>
+            <td><input type="checkbox" id="type7" onclick="filterData(this)" value="7"></td>
+            <td><label>horizontal:right-to-left</label></td>
+          </tr>
+          <tr>
+            <td><i class="fa  w3-text-green w3-large"></i></td>
+            <td><input type="checkbox" id="type8" onclick="filterData(this)" value="8"></td>
+            <td><label>thurst</label></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="slider-wrapper">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+<!--        <div id="slider-wrapper-dragger">Click here to move</div>-->
+<!--        <div id="slider-list">-->
+        <table id="slider-list" class="w3-table w3-striped w3-white">
+          <caption id="slider-wrapper-dragger">Slider Menu</caption>
+          <tr>
+            <td><i class="fa w3-text-green w3-large"></i></td>
+            <td>
+              <input type="range" min="0" max="1" value="0" id="height" step="0.1" onchange="sortData(objJson)"><br>
+              <label>Height</label><br>
+            </td>
+          </tr>
+
+          <tr>
+            <td><i class="w3-text-green w3-large"></i></td>
+            <td>
+              <input type="range" min="0" max="1" value="0" id="distance" step="0.1" onchange="sortData(objJson)"><br>
+              <label>Distance</label><br>
+            </td>
+          </tr>
+
+          <tr>
+            <td><i class="fa w3-text-green w3-large"></i></td>
+            <td>
+              <input type="range" min="0" max="1" value="0" id="length" step="0.1" onchange="sortData(objJson)"><br>
+              <label>Length</label><br>
+            </td>
+          </tr>
+<!--          <caption>  aaa</caption>-->
+        </table>
+<!--        </div>-->
+      </div>
+
+      <div id="button-wrapper">
+<!--        <div id="button-wrapper-dragger"></div><br>-->
+        <p>Motion Menu</p>
+        <div id="button-content-wrapper">
+          <button class="page-button page-button-dynamic" id="btn_prev" type="button" onclick="prevPage()"><</button>
+          <div id="button-list"></div>
+          <button class="page-button page-button-dynamic" id="btn_next" type="button" onclick="nextPage()">></button>
+        </div>
+        <br>
+        <p>page: <span id="page"></span></p>
+      </div>
+
+    </div>
+
+
+
+
+  </body>
+
+  <script type="text/javascript" language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" language="javascript" src="data.js"></script>
+
+
+
+  <script type="text/javascript">
+
+
+    // $(document).ready(function(e) {
+    //   console.log(json_data[0])
+    // });
+
+    //Make the DIV element draggagle:
+    dragElement(document.getElementById("checkbox-wrapper"));
+    dragElement(document.getElementById("slider-wrapper"));
+    dragElement(document.getElementById("button-wrapper"));
+
+
+    let current_page = 1;
+    let records_per_page = 3;
+
+    let objJson = json_data;
+
+    let sorted_objJson = json_data;
+    let filtered_objJson = json_data;
+    // let sorted_
+
+    let sorting = false;
+    let filtering = false;
+
+    let slider_state_dict = {
+      "height":0,
+      "distance":0,
+      "length":0
+    }
+
+    const max_value_dict = getMaxValue(json_data);
+
+    let checkbox_state_dict = {
+      "1":false,
+      "2":false,
+      "3":false,
+      "4":false,
+      "5":false,
+      "6":false,
+      "7":false,
+      "8":false
+    }
+
+    let cached_check_state_dict = checkbox_state_dict;
+
+    let data_index_name_map = getMap(objJson);
+
+
+    function getMap(json_data){
+
+      let map = {}
+
+      for(let i=0;i<json_data.length;i++){
+
+        map[json_data[i].name] = i;
+
+      }
+
+      return map;
+    }
+
+    function prevPage()
+    {
+      let data;
+      if(sorting || filtering){
+        data = sorted_objJson;
+      }else{
+        data = objJson;
+      }
+
+      if (current_page > 1) {
+        current_page--;
+        changePage(current_page, data);
+      }
+    }
+
+    function nextPage()
+    {
+      let data;
+      if(sorting || filtering){
+        data = sorted_objJson;
+      }else{
+        data = objJson;
+      }
+
+      if (current_page < numPages(json_data)) {
+        current_page++;
+        changePage(current_page, data);
+      }
+    }
+
+    function changePage(page, json_data)
+    {
+      let btn_next = document.getElementById("btn_next");
+      let btn_prev = document.getElementById("btn_prev");
+      let listing_table = document.getElementById("button-list");
+      let page_span = document.getElementById("page");
+
+      // Validate page
+      if (page < 1) page = 1;
+      if (page > numPages(json_data)) page = numPages(json_data);
+
+      listing_table.innerHTML = "";
+
+      for (let i = (page-1) * records_per_page; i < (page * records_per_page) && i < json_data.length; i++) {
+
+        let displayed_name = json_data[i].name
+
+        let modified_id = json_data[i].name
+
+        let modified_tag = "false"
+
+        if(hasUnderScore(json_data[i].name) === true){
+          displayed_name = displayed_name.replaceAll('_', ' ')
+        }
+
+        if (hasWhiteSpace(json_data[i].name) === true){
+          modified_id = json_data[i].name.replaceAll(' ', '_')
+          modified_tag = "true"
+        }
+        // displayed_name = ""
+        //
+        // if objJson[i].name.split("_")
+
+        // + "<br>"
+        // listing_table.innerHTML += "<button onclick='changeVideo(this)' class='button' id =" + modified_id +" modify =" + modified_tag + ">" + displayed_name + "</button>";
+        listing_table.innerHTML += "<img src = 'ButtonImages/"+ json_data[i].name+ ".gif' onclick='changeVideo(this)' class='img' id =" + modified_id +" modify =" + modified_tag + ">";
+
+      }
+      page_span.innerHTML = page + "/" + numPages(json_data);
+
+      if (page === 1) {
+        btn_prev.style.visibility = "visible";
+      } else {
+        btn_prev.style.visibility = "visible";
+      }
+
+      if (page === numPages(json_data)) {
+        btn_next.style.visibility = "visible";
+      } else {
+        btn_next.style.visibility = "visible";
+      }
+    }
+
+    function numPages(json_data)
+    {
+      return Math.ceil(json_data.length / records_per_page);
+    }
+
+    window.onload = function() {
+      changePage(1, objJson);
+      current_page = 1;
+    };
+
+    function getMaxValue(json_data){
+
+      let max_height = 0;
+      let max_distance = 0;
+      let max_length = 0;
+
+      for(let i=0;i<json_data.length;i++){
+
+        if (json_data[i].shifts[2] > max_height){
+          max_height = json_data[i].shifts[2];
+        }
+
+        if (json_data[i].shifts[4] > max_distance){
+          max_distance = json_data[i].shifts[4];
+        }
+
+        if (json_data[i].length > max_length){
+          max_length = json_data[i].length;
+        }
+
+      }
+
+
+      return {
+        "height":max_height,
+        "distance":max_distance,
+        "length":max_length
+      }
+    }
+
+
+    function changeVideo(att){
+      console.log(att.attributes.modify.value)
+      let video = document.getElementById('video');
+
+      let video_path = att.id;
+      if(att.attributes.modify.value === "true"){
+        video_path = att.id.replaceAll('_', ' ');
+      }
+
+      document.getElementById("video source").src = "NVideos/" + video_path + "_0.mp4";
+
+      video.load();
+
+    }
+
+
+    function hasWhiteSpace(s) {
+      return s.indexOf(' ') >= 0;
+    }
+
+    function hasUnderScore(s) {
+      return s.indexOf('_') >= 0 || s.indexOf('-') >= 0;
+    }
+
+    function filterData(){
+
+      let data = objJson;
+
+      let table_size = document.getElementById("checkbox-list").rows.length;
+
+      let all_unchecked = true;
+
+      // let active_check = []
+
+      for(let i = 0; i<table_size;i++){
+        let current_row = document.getElementById("checkbox-list").rows[i];
+        let current_checked = current_row.children[1].firstChild.checked;
+        // console.log(i +" : "+ current_checked);
+
+        checkbox_state_dict[(i+1).toString()] = current_checked;
+
+        // if (current_checked === true){
+        //   active_check.push((i+1).toString());
+        // }
+
+        all_unchecked = all_unchecked && !current_checked;
+      }
+
+      // let passed_data;
+
+      // if (all_unchecked === true){
+      //   passed_data = data;
+      //   filtering = false;
+      //
+      // }else{
+
+      if(all_unchecked !== true){
+
+        filtering = true;
+
+        let modified_json = []
+
+        for (let i=0;i<data.length;i++){
+          let ats = data[i]["attack types"];
+
+          // fuzzy match
+          for(let j=0;j<ats.length;j++){
+            let at = ats[j];
+            if (checkbox_state_dict[at] === true){
+              modified_json.push(data[i]);
+              break;
+            }
+          }
+        }
+
+        filtered_objJson = modified_json;
+      }else{
+        filtered_objJson = objJson;
+      }
+
+      // sort
+      sortData();
+
+
+      changePage(1, sorted_objJson);
+      current_page = 1;
+    }
+
+    function normalizeData(v,m){
+      return (v)/(m);
+    }
+
+    function sortData(json_data){
+
+      let data;
+
+      if(filtering){
+        data = filtered_objJson;
+      }else{
+        data = objJson;
+      }
+
+      // get original order information before this sorting
+      data_index_name_map = getMap(data);
+
+      let stored_score = {}
+
+      let table_size = document.getElementById("slider-list").rows.length;
+
+      for(let i = 0; i<table_size;i++){
+        let current_row = document.getElementById("slider-list").rows[i];
+        let current_value = current_row.children[1].children[0].value;
+        let current_id = current_row.children[1].children[0].id;
+
+        slider_state_dict[current_id] = parseFloat(current_value);
+      }
+
+      if(slider_state_dict.height === 0 && slider_state_dict.distance ===0 && slider_state_dict.length === 0){
+        sorting = false;
+
+        changePage(current_page, data);
+        sorted_objJson = data;
+
+
+      }else{
+        sorting = true;
+
+        for(let i=0;i<data.length;i++){
+          let up = (data[i].shifts[2]);
+          let forward = (data[i].shifts[4]);
+          let length = (data[i].length);
+
+          let name = data[i].name;
+
+
+          let height_score = 0;
+          let distance_score = 0;
+          let length_score = 0;
+
+          if(slider_state_dict.height !== 0){
+            height_score = Math.abs(normalizeData(up, max_value_dict.height) - slider_state_dict.height);
+            if (isNaN(height_score)){
+              height_score = 0;
+            }
+          }
+
+          if(slider_state_dict.distance !== 0){
+            distance_score = Math.abs(normalizeData(forward, max_value_dict.distance) - slider_state_dict.distance);
+            if (isNaN(distance_score)){
+              distance_score = 0;
+            }
+          }
+
+          if(slider_state_dict.length !== 0){
+            length_score = Math.abs(normalizeData(length, max_value_dict.length) - slider_state_dict.length);
+            if (isNaN(length_score)){
+              length_score = 0;
+            }
+          }
+
+          // let final_score = height_score + distance_score + length_score;
+          stored_score[name] = height_score + distance_score + length_score;
+
+        }
+
+
+        // Create items array
+        let items = Object.keys(stored_score).map(function(key) {
+          return [key, stored_score[key]];
+        });
+
+        // Sort the array based on the second element
+        items.sort(function(first, second) {
+          return second[1] - first[1];
+        });
+
+        items.reverse()
+
+        // console.log(items);
+
+
+        // sort data
+        let new_objJson =  []
+
+        for(let i =0;i<items.length;i++){
+          let key = items[i][0];
+          let value = items[i][1];
+
+          let original_index = data_index_name_map[key];
+
+          new_objJson.push(data[original_index]);
+
+        }
+
+        sorted_objJson = new_objJson;
+        changePage(1, sorted_objJson);
+        current_page = 1;
+
+      }
+    }
+
+
+    function dragElement(elmnt) {
+      let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      if (document.getElementById(elmnt.id+"-dragger")) {
+        /* if present, the header is where you move the DIV from:*/
+        document.getElementById(elmnt.id+"-dragger").onmousedown = dragMouseDown;
+      } else {
+        /* otherwise, move the DIV from anywhere inside the DIV:*/
+        elmnt.onmousedown = dragMouseDown;
+      }
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        /* stop moving when mouse button is released:*/
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+
+
+    }
+  </script>
+</html>
